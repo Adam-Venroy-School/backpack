@@ -1,0 +1,20 @@
+{% extends "layout.html"%}{% block content%}
+
+<form method="GET" action={{ url_for('home') }}>
+ {{ add_form.csrf_token }}
+ {{ add_form.name }}
+ {{add_form.description}}
+ {{ add_form.submit }}
+</form>
+<form method="GET" action={{ url_for('home') }}>
+ {{ delete_form.csrf_token }}
+ {{ delete_form.name }}
+ {{ delete_form.submit }}
+</form>
+<ul>
+  {%for item in list%}
+  <li>{{item[1]}} - {{item[2]}}</li>
+  {%endfor%}
+</ul>
+
+{% endblock %}
