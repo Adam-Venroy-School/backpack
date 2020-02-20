@@ -9,3 +9,6 @@ class AddForm(FlaskForm):
 class DeleteForm(FlaskForm):
     name = StringField('Item Name', [validators.Length(min=1, max=100)])
     delete_submit = SubmitField('Delete')
+
+class ClearForm(FlaskForm):
+    clear_submit = SubmitField('Clear')
