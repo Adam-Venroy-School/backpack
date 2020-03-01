@@ -1,4 +1,5 @@
 {% extends "layout.html"%}{% block content%}
+{% from 'marco.html' import render_field %}
 
 <form method="POST" action={{ url_for('add') }}>
  {{ add_form.csrf_token }}
@@ -6,19 +7,41 @@
  {{add_form.description}}
  {{ add_form.add_submit }}
 </form>
-<form method="POST" action={{ url_for('delete') }}>
+<form method="POST" action='/deletename'}}>
  {{ delete_form.csrf_token }}
  {{ delete_form.name }}
  {{ delete_form.delete_submit }}
 </form>
-<form method="POST" action={{url_for('clear')}}>
+<form method="POST" action={{url_for('clear') }}>
   {{clear_form.csrf_token}}
   {{clear_form.clear_submit}}
 </form>
 <ul>
-  {%for item in list%}
-  <li>{{item[1]}} - {{item[2]}}</li>
+  {% set idnum = namespace(a=0)%}
+  {% for item in contents %}
+  <li>{{item.name}} - {{item.description}} <button id="edit" onclick="MyFunction({{idnum.a|string}})">Edit</button></li>
+  <div style="display: none;" class="editforms" id='{{idnum.a|string}}'>
+    <form method="POST" action='edit/{{item.id}}'>
+    {{edit_form.name}}
+    {{edit_form.description}}
+    {{edit_form.edit_submit}}
+    </form>
+    <form method="POST" action='deletebutton/{{item.id}}'>
+      {{delete_form.delete_submit}}
+    </form>
+  </div>
+  {% set idnum.a = idnum.a + 1%}
   {%endfor%}
 </ul>
 
+<script>
+  function MyFunction(idnum) {
+    var x = document.getElementById(idnum);
+    if(x.style.display === "none"){
+      x.style.display = "block";
+    } else{
+      x.style.display = "none";
+    }
+  }
+</script>
 {% endblock %}

@@ -1,0 +1,9 @@
+body {
+    text-align: center;
+}
+p#header {
+    font-size: 20px;
+}
+li {
+    list-style-type: none;
+}
