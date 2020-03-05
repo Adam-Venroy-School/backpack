@@ -1,12 +1,15 @@
 {% extends "layout.html"%}{% block content%}
-{% from 'marco.html' import render_field %}
-
+{% from 'macro.html' import error_field %}
+{% if error == True%}
+<p> Error: Name or Description too long</p>
+{% endif%}
 <form method="POST" action={{ url_for('add') }}>
- {{ add_form.csrf_token }}
- {{ add_form.name }}
+ {{add_form.csrf_token}}
+ {{add_form.name}}
  {{add_form.description}}
  {{ add_form.add_submit }}
 </form>
+{{error_field(add_form)}}
 <form method="POST" action='/deletename'}}>
  {{ delete_form.csrf_token }}
  {{ delete_form.name }}
@@ -17,11 +20,11 @@
   {{clear_form.clear_submit}}
 </form>
 <ul>
-  {% set idnum = namespace(a=0)%}
   {% for item in contents %}
-  <li>{{item.name}} - {{item.description}} <button id="edit" onclick="MyFunction({{idnum.a|string}})">Edit</button></li>
-  <div style="display: none;" class="editforms" id='{{idnum.a|string}}'>
+  <li>{{item.name}} - {{item.description}} <button id="edit" onclick="MyFunction({{item.id}})">Edit</button></li>
+  <div style="display: none;" class="editforms" id='{{item.id}}'>
     <form method="POST" action='edit/{{item.id}}'>
+    {{edit_form.csrf_token}}
     {{edit_form.name}}
     {{edit_form.description}}
     {{edit_form.edit_submit}}
@@ -30,7 +33,6 @@
       {{delete_form.delete_submit}}
     </form>
   </div>
-  {% set idnum.a = idnum.a + 1%}
   {%endfor%}
 </ul>
 

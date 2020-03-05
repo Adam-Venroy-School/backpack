@@ -12,7 +12,7 @@ def add_backpack(item_name, item_description):
 
 
 def delete_name_backpack(item_name):
-    Content.query.filter(Content.name==item_name).delete()
+    Content.query.filter(Content.name==item_name).delete() # Runs query and deletes item
     db.session.commit()
 
 def clear_backpack():
@@ -23,7 +23,8 @@ def clear_backpack():
     db.session.commit()
 
 def edit_backpack(id, new_item, new_description):
-    Content.query.filter(Content.id==id).update({"name": new_item})
+    if len(new_item) != 0: # If the item is not i
+        Content.query.filter(Content.id==id).update({"name": new_item})
     Content.query.filter(Content.id==id).update({"description": new_description})
     db.session.commit()
 

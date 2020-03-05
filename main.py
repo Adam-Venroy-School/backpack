@@ -4,7 +4,6 @@ from database import *
 from forms import AddForm, DeleteForm, ClearForm, EditForm
 app.secret_key = 'dev'
 
-
 @app.route("/",methods=['GET'])
 @app.route("/home",methods=['GET'])
 def home():
@@ -18,18 +17,20 @@ def home():
 @app.route("/add",methods=['POST', 'GET'])
 def add():
     add_form = AddForm()
+    #If it does not validate, return home
     if not add_form.validate_on_submit():
         return redirect(url_for('home'))
     item_name = add_form.name.data
     description = add_form.description.data
     if len(description) < 1:
-        description = "No Description"
+        description = "No Description" #If the user inputs no description, we set it to this
     add_backpack(item_name, description)
     return redirect(url_for('home'))
 
 @app.route("/deletename",methods=['POST', 'GET'])
 def deletename():
     delete_form = DeleteForm()
+    #If it does not validate, return home
     if not delete_form.validate_on_submit():
         return redirect(url_for('home'))
     print(delete_form.name.data)
@@ -52,6 +53,9 @@ def clear():
 @app.route("/edit/<int:id>",methods=['POST', 'GET'])
 def edit(id):
     edit_form = EditForm()
+    #If it does not validate, it will return home without doing code.
+    if not edit_form.validate_on_submit():
+        return redirect(url_for('home'))
     name = edit_form.name.data
     description = edit_form.description.data
     if len(description) < 1:
@@ -59,6 +63,9 @@ def edit(id):
     edit_backpack(id, name, description)
     return redirect('/')
 
+@app.errorhandler(404)
+def error(e):
+    return redirect('/')
+
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
