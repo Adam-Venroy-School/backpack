@@ -1,8 +1,4 @@
 {% extends "layout.html"%}{% block content%}
-{% from 'macro.html' import error_field %}
-{% if error == True%}
-<p> Error: Name or Description too long</p>
-{% endif%}
 <form method="POST" action={{ url_for('add') }}>
  {{add_form.csrf_token}}
  {{add_form.name}}
@@ -10,7 +6,7 @@
  {{ add_form.add_submit }}
 </form>
 {{error_field(add_form)}}
-<form method="POST" action='/deletename'}}>
+<form method="POST" action={{ url_ for('deletename')}}>
  {{ delete_form.csrf_token }}
  {{ delete_form.name }}
  {{ delete_form.delete_submit }}

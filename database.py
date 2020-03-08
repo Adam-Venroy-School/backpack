@@ -5,6 +5,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:////temp/test.db'
 db = SQLAlchemy(app)
 
+#Content Table
 class Content(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(20),nullable=False)
