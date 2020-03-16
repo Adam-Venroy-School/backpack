@@ -2,7 +2,9 @@ from flask import render_template, redirect, url_for
 from backpack_functions import *
 from database import *
 from forms import AddForm, DeleteForm, ClearForm, EditForm
+
 app.secret_key = 'dev'
+db.create_all()
 
 @app.route("/",methods=['GET'])
 @app.route("/home",methods=['GET'])
@@ -22,8 +24,6 @@ def add():
         return redirect(url_for('home'))
     item_name = add_form.name.data
     description = add_form.description.data
-    if len(description) < 1:
-        description = "No Description" #If the user inputs no description, we set it to this
     add_backpack(item_name, description)
     return redirect(url_for('home'))
 
@@ -33,7 +33,6 @@ def deletename():
     #If it does not validate, return home
     if not delete_form.validate_on_submit():
         return redirect(url_for('home'))
-    print(delete_form.name.data)
     item_name = delete_form.name.data
     delete_name_backpack(item_name)
     return redirect(url_for('home'))
@@ -63,9 +62,11 @@ def edit(id):
     edit_backpack(id, name, description)
     return redirect('/')
 
+#If anything other than home is reached, it will be redirected to home page
 @app.errorhandler(404)
 def error(e):
     return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
+

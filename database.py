@@ -2,8 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:////temp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////backpack.db'
 db = SQLAlchemy(app)
+
 
 class Content(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -13,5 +14,3 @@ class Content(db.Model):
     def __init__(self, name, description):
         self.name = name
         self.description = description
-
-db.create_all()
