@@ -5,7 +5,12 @@
  {{add_form.description}}
  {{ add_form.add_submit }}
 </form>
+<<<<<<< HEAD
 <form method="POST" action='/deletename'}}>
+=======
+{{error_field(add_form)}}
+<form method="POST" action={{ url_ for('deletename')}}>
+>>>>>>> e72323b1e8a9c6e4e75a60f8a7ab020155632863
  {{ delete_form.csrf_token }}
  {{ delete_form.name }}
  {{ delete_form.delete_submit }}
