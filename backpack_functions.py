@@ -25,9 +25,18 @@ def clear_backpack():
 def edit_backpack(id, new_item, new_description):
     if len(new_item) != 0: # If the length of the name is 0, keep the old name
         Content.query.filter(Content.id==id).update({"name": new_item}) # Find by ID and change name to new_item
+    if len(new_description) == 0: # If the length of description is 0, replace with 'No Description'
+        new_description = "No Description"
     Content.query.filter(Content.id==id).update({"description": new_description}) # Find by ID and change description to new_description
     db.session.commit()
 
 def delete_button_backpack(id):
     Content.query.filter(Content.id==id).delete() # Find item by ID and delete it
     db.session.commit()
+
+def register_user(name, password):
+    entry = User(username=name,password=password)
+    db.session.add(entry)
+    db.session.commit()
+
+

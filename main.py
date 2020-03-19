@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for
 from backpack_functions import *
 from database import *
-from forms import AddForm, DeleteForm, ClearForm, EditForm
+from forms import AddForm, DeleteForm, ClearForm, EditForm, RegisterForm
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app.secret_key = 'dev'
 db.create_all()
@@ -65,10 +66,24 @@ def edit(id):
         return redirect(url_for('home'))
     name = edit_form.name.data
     description = edit_form.description.data
-    if len(description) < 1:
-        description = "No Description"
     edit_backpack(id, name, description)
     return redirect('/')
+
+@app.route("/createuser", methods=['POST', 'GET'])
+def createuser():
+    register_form = RegisterForm()
+    if register_form.validate_on_submit():
+        username = register_form.name.data
+        password = generate_password_hash(register_form.password.data,method='sha256',salt_length=8)
+        print(username, password)
+        register_user(username, password)
+    return render_template('createuser.html', register_form=register_form)
+
+@app.route("/login", methods=['POST', 'GET'])
+def loginuser():
+    return render_template('login.html')
+
+
 
 #If anything other than home is reached, it will be redirected to home page
 @app.errorhandler(404)
