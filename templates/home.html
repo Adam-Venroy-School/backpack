@@ -1,13 +1,21 @@
 {% extends "layout.html"%}{% block content%}
-<a href={{url_for('createuser')}}>
+<a href="{{url_for('createuser')}}">
 Create user
 </a>
 <br>
-<a href={{url_for('loginuser')}}>
+<a href="{{url_for('loginuser')}}">
   Login 
 </a>
-
-<form method="POST" action={{url_for('add')}}>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<form method="POST" action="{{url_for('add')}}">
  {{add_form.csrf_token}}
  {{add_form.name}}
  {{add_form.description}}
@@ -18,7 +26,7 @@ Create user
  {{ delete_form.name }}
  {{ delete_form.delete_submit }}
 </form>
-<form method="POST" action={{url_for('clear') }}>
+<form method="POST" action="{{url_for('clear') }}">
   {{clear_form.csrf_token}}
   {{clear_form.clear_submit}}
 </form>

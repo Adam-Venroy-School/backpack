@@ -21,4 +21,9 @@ class EditForm(FlaskForm):
 class RegisterForm(FlaskForm):
     name = StringField('Username', [validators.Length(min=1, max=80)])
     password = PasswordField('Password', [validators.Length(min=8, max=100)])
-    login_submit = SubmitField('Register')
+    register_submit = SubmitField('Register')
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', [validators.Length(min=1, max=80)])
+    userpassword = PasswordField('Password', [validators.Length(min=8, max=100)])
+    login_submit = SubmitField('Login')

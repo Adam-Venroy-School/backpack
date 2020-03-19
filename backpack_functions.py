@@ -1,4 +1,5 @@
 from database import *
+from flask import flash
 
 def view_backpack():
     contents = Content.query.all()
@@ -13,7 +14,10 @@ def add_backpack(item_name, item_description):
 
 
 def delete_name_backpack(item_name):
-    Content.query.filter(Content.name==item_name).delete() # Finds row with item name and deletes item
+    if Content.query.filter(Content.name==item_name).scalar() == None:
+        flash("Item not in database")
+    else:
+        Content.query.filter(Content.name==item_name).delete() # Finds row with item name and deletes item
 
 def clear_backpack():
     items = Content.query.all()
@@ -31,6 +35,7 @@ def edit_backpack(id, new_item, new_description):
     db.session.commit()
 
 def delete_button_backpack(id):
+
     Content.query.filter(Content.id==id).delete() # Find item by ID and delete it
     db.session.commit()
 

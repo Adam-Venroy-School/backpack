@@ -26,6 +26,7 @@ def add():
     add_form = AddForm()
     #If it does not validate, return home
     if not add_form.validate_on_submit():
+        flash("Name or Description too long")
         return redirect(url_for('home'))
     # Setting variable to data for easy reading
     item_name = add_form.name.data
@@ -42,6 +43,7 @@ def delete_name():
         return redirect(url_for('home'))
     item_name = delete_form.name.data
     delete_name_backpack(item_name)
+
     return redirect(url_for('home'))
 
 # Delete by Button Page. When the delete button is pressed, the item get deleted by ID.
@@ -63,6 +65,7 @@ def edit(id):
     edit_form = EditForm()
     #If it does not validate, it will return home without doing code.
     if not edit_form.validate_on_submit():
+        flash("Name or Description too Long")
         return redirect(url_for('home'))
     name = edit_form.name.data
     description = edit_form.description.data
@@ -81,6 +84,11 @@ def createuser():
 
 @app.route("/login", methods=['POST', 'GET'])
 def loginuser():
+    login_form = LoginForm()
+    username = login_form.username.data
+    password = login_form.userpassword.data
+    user = session.query(User).filter(User.name == username)
+    userpassword = session.query(User).filter()
     return render_template('login.html')
 
 
